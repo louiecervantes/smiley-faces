@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -32,7 +32,7 @@ def app():
              like animal/non-animal, vehicle/non-vehicle, etc.""")
 
     # display choice of classifier
-    clf = GaussianNB() 
+    clf = BernoulliNB() 
     options = ['Naive Bayes', 'Logistic Regression']
     selected_option = st.selectbox('Select the classifier', options)
     if selected_option=='Logistic Regression':
@@ -40,7 +40,7 @@ def app():
             penalty='l2', random_state=42, solver='lbfgs',
             verbose=0, warm_start=False)
     else:
-        clf = GaussianNB()
+        clf = BernoulliNB()
 
     if st.button('Start'):
         df = pd.read_csv('smiley_faces.csv', header=None)
