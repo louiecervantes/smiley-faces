@@ -13,16 +13,50 @@ from sklearn.metrics import classification_report
 # Define the Streamlit app
 def app():
     
-    st.title('Naive Bayes Classifier')
+    st.title('Symbol Classification')
     st.subheader('by Louie F. Cervantes M.Eng., WVSU College of ICT')
     st.write('The naive bayes classifierperforms well on overlapped data.')
 
+    st.write('Dataset description:')
+
+    st.write('Number of features: 64')
+    text = """Feature representation: Binary values (1 or 0) representing the 8x8 pixels of an image.
+        Target variable: This could be a single categorical variable representing the class of the image (e.g., digit recognition, traffic sign classification).
+        Potential Applications:"""
+
+    st.write(text)
+
+    st.write('Digit recognition: Identifying handwritten digits from 0-9.')
+    st.write('Traffic sign classification: Classifying different types of traffic signs.')
+    st.write('Character recognition: Recognizing characters from different alphabets.')
+    st.write("""Simple image classification: Classifying simple images into categories 
+             like animal/non-animal, vehicle/non-vehicle, etc.""")
+
     if st.button('Start'):
-        df = pd.read_csv('data_decision_trees.csv', header=None)
+        df = pd.read_csv('smiley_faces.csv', header=None)
         # st.dataframe(df, use_container_width=True)  
         
         # display the dataset
-        st.dataframe(df, use_container_width=True)  
+        st.dataframe(df, use_container_width=True) 
+
+        # display the images 
+        # Create the figure and axes object
+        fig, axs = plt.subplots(4, 10, figsize=(20, 8))
+
+        # Iterate over the images and labels
+        for index, (image, label) in enumerate(zip(data, target)):
+            # Get the corresponding axes object
+            ax = axs.flat[index]
+
+            # Display the image
+            ax.imshow(np.reshape(image, (8, 8)), cmap='binary')
+
+        # Add the title
+        ax.set_title(f'Training: {label}', fontsize=10)
+
+        # Tighten layout to avoid overlapping
+        plt.tight_layout()
+        st.pyplot(fig)
 
         #load the data and the labels
         X = df.values[:,0:-1]
@@ -45,48 +79,6 @@ def app():
         accuracy = clf.score(X_test, y_test_pred)
         st.write('accuracy = ' + str(accuracy))
         st.text(classification_report(y_test, y_test_pred))
-        visualize_classifier(clf, X, y)
-
-def visualize_classifier(classifier, X, y, title=''):
-    # Define the minimum and maximum values for X and Y
-    # that will be used in the mesh grid
-    min_x, max_x = X[:, 0].min() - 1.0, X[:, 0].max() + 1.0
-    min_y, max_y = X[:, 1].min() - 1.0, X[:, 1].max() + 1.0
-
-    # Define the step size to use in plotting the mesh grid 
-    mesh_step_size = 0.01
-
-    # Define the mesh grid of X and Y values
-    x_vals, y_vals = np.meshgrid(np.arange(min_x, max_x, mesh_step_size), np.arange(min_y, max_y, mesh_step_size))
-
-    # Run the classifier on the mesh grid
-    output = classifier.predict(np.c_[x_vals.ravel(), y_vals.ravel()])
-
-    # Reshape the output array
-    output = output.reshape(x_vals.shape)
-    
-    # Create the figure and axes objects
-    fig, ax = plt.subplots()
-
-    # Specify the title
-    ax.set_title(title)
-    
-    # Choose a color scheme for the plot
-    ax.pcolormesh(x_vals, y_vals, output, cmap=plt.cm.gray)
-    
-    # Overlay the training points on the plot
-    ax.scatter(X[:, 0], X[:, 1], c=y, s=75, edgecolors='black', linewidth=1, cmap=plt.cm.Paired)
-    
-    # Specify the boundaries of the plot
-    ax.set_xlim(x_vals.min(), x_vals.max())
-    ax.set_ylim(y_vals.min(), y_vals.max())
-    
-    # Specify the ticks on the X and Y axes
-    ax.set_xticks(np.arange(int(X[:, 0].min() - 1), int(X[:, 0].max() + 1), 1.0))
-    ax.set_yticks(np.arange(int(X[:, 1].min() - 1), int(X[:, 1].max() + 1), 1.0))
-
-    
-    st.pyplot(fig)
     
 #run the app
 if __name__ == "__main__":
