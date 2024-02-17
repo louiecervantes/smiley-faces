@@ -38,11 +38,9 @@ def app():
     options = ['Naive Bayes', 'Logistic Regression']
     selected_option = st.selectbox('Select the classifier', options)
     if selected_option=='Logistic Regression':
-        clf = LogisticRegression(C=1.0, class_weight=None, 
-            dual=False, fit_intercept=True,
-            intercept_scaling=1, max_iter=100, multi_class='auto',
-            n_jobs=1, penalty='l2', random_state=42, solver='lbfgs',
-            tol=0.0001, verbose=0, warm_start=False)
+        clf = LogisticRegression(C=0.001, max_iter=1000, multi_class='auto',
+            penalty='l1', random_state=42, solver='lbfgs',
+            verbose=0, warm_start=False)
     else:
         clf = GaussianNB()
 
