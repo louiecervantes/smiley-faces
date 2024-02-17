@@ -39,12 +39,16 @@ def app():
         # display the dataset
         st.dataframe(df, use_container_width=True) 
 
+        #load the data and the labels
+        X = df.values[:,0:-1]
+        y = df.values[:,-1]    
+
         # display the images 
         # Create the figure and axes object
         fig, axs = plt.subplots(4, 10, figsize=(20, 8))
 
         # Iterate over the images and labels
-        for index, (image, label) in enumerate(zip(data, target)):
+        for index, (image, label) in enumerate(zip(X, y)):
             # Get the corresponding axes object
             ax = axs.flat[index]
 
@@ -58,9 +62,7 @@ def app():
         plt.tight_layout()
         st.pyplot(fig)
 
-        #load the data and the labels
-        X = df.values[:,0:-1]
-        y = df.values[:,-1]          
+      
         
         # Split the dataset into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, \
