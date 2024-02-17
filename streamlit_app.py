@@ -76,7 +76,6 @@ def app():
         st.text(cmNB)
         
         # Test the classifier on the testing set
-        st.write('accuracy = ' + str(accuracy))
         st.text(classification_report(y_test, y_test_pred))
     
 #run the app
