@@ -39,7 +39,7 @@ def app():
     selected_option = st.selectbox('Select the classifier', options)
     if selected_option=='Logistic Regression':
         clf = LogisticRegression(C=0.001, max_iter=1000, multi_class='auto',
-            penalty='l1', random_state=42, solver='lbfgs',
+            penalty='l2', random_state=42, solver='lbfgs',
             verbose=0, warm_start=False)
     else:
         clf = GaussianNB()
