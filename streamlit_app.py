@@ -24,9 +24,7 @@ def app():
     text = """Feature representation: Binary values (1 or 0) representing the 8x8 pixels of an image.
         Target variable: This could be a single categorical variable representing the class of the image (e.g., digit recognition, traffic sign classification).
         Potential Applications:"""
-
     st.write(text)
-
     st.write('Digit recognition: Identifying handwritten digits from 0-9.')
     st.write('Traffic sign classification: Classifying different types of traffic signs.')
     st.write('Character recognition: Recognizing characters from different alphabets.')
@@ -49,14 +47,15 @@ def app():
         # st.dataframe(df, use_container_width=True)  
         
         # display the dataset
+        st.header("Dataset")
         st.dataframe(df, use_container_width=True) 
 
         #load the data and the labels
         X = df.values[:,0:-1]
         y = df.values[:,-1]    
 
+        st.header('Images')
         # display the images 
-        # Create the figure and axes object
         fig, axs = plt.subplots(4, 10, figsize=(20, 8))
 
         # Iterate over the images and labels
@@ -81,9 +80,10 @@ def app():
         clf.fit(X_train,y_train)
         y_test_pred = clf.predict(X_test)
 
+        st.header('Confusion Matrix')
         cm = confusion_matrix(y_test, y_test_pred)
         st.text(cm)
-        
+        st.header('Classification Report')
         # Test the classifier on the testing set
         st.text(classification_report(y_test, y_test_pred))
     
