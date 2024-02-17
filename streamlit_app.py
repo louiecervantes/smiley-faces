@@ -61,8 +61,6 @@ def app():
         # Tighten layout to avoid overlapping
         plt.tight_layout()
         st.pyplot(fig)
-
-      
         
         # Split the dataset into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, \
@@ -78,7 +76,6 @@ def app():
         st.text(cmNB)
         
         # Test the classifier on the testing set
-        accuracy = clf.score(X_test, y_test_pred)
         st.write('accuracy = ' + str(accuracy))
         st.text(classification_report(y_test, y_test_pred))
     
